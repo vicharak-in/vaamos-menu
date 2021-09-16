@@ -1,7 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.38.2 -->
-<interface>
+<!-- Generated with glade 3.40.0
+
+Copyright (C) 2021-2023 CachyOS team
+
+This file is part of cachyos-welcome.
+
+cachyos-welcome is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+cachyos-welcome is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with cachyos-welcome.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+<interface domain="cachyos-hello">
   <requires lib="gtk+" version="3.20"/>
+  <!-- interface-css-provider-path style.css -->
+  <!-- interface-license-type gplv3 -->
+  <!-- interface-name cachyos-welcome -->
+  <!-- interface-copyright 2021-2023 CachyOS team -->
   <object class="GtkImage" id="abouticon">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
@@ -48,7 +71,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="has-focus">True</property>
-                <property name="label" translatable="yes">Welcome to Manjaro!</property>
+                <property name="label" translatable="yes">Welcome to CachyOS!</property>
                 <attributes>
                   <attribute name="weight" value="bold"/>
                   <attribute name="scale" value="2"/>
@@ -66,7 +89,7 @@
                 <property name="can-focus">False</property>
                 <property name="label" translatable="yes">Thank you for joining our community!
 
-We, the Manjaro Developers, hope that you will enjoy using Manjaro as much as we enjoy building it. The links below will help you get started with your new operating system. So enjoy the experience, and don't hesitate to send us your feedback.</property>
+We, the CachyOS Developers, hope that you will enjoy using CachyOS as much as we enjoy building it. The links below will help you get started with your new operating system. So enjoy the experience, and don't hesitate to send us your feedback.</property>
                 <property name="justify">fill</property>
                 <property name="wrap">True</property>
                 <property name="width-chars">1</property>
@@ -198,9 +221,9 @@ We, the Manjaro Developers, hope that you will enjoy using Manjaro as much as we
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="discover">
-                <property name="label" translatable="yes">Discover software</property>
-                <property name="name">discover</property>
+              <object class="GtkButton" id="software">
+                <property name="label" translatable="yes">Software</property>
+                <property name="name">software</property>
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="receives-default">True</property>
@@ -218,7 +241,7 @@ We, the Manjaro Developers, hope that you will enjoy using Manjaro as much as we
               <object class="GtkButton" id="mailling">
                 <property name="label" translatable="yes">Mailing lists</property>
                 <property name="name">mailling</property>
-                <property name="visible">True</property>
+                <property name="visible">False</property>
                 <property name="can-focus">False</property>
                 <property name="receives-default">True</property>
                 <property name="tooltip-text" translatable="yes">Web resource</property>
@@ -401,12 +424,12 @@ We, the Manjaro Developers, hope that you will enjoy using Manjaro as much as we
                 <property name="can-focus">False</property>
                 <property name="homogeneous">True</property>
                 <child>
-                  <object class="GtkButton" id="appBrowser">
-                    <property name="label" translatable="yes">Applications</property>
-                    <property name="name">appBrowser</property>
+                  <object class="GtkButton" id="tweaksBrowser">
+                    <property name="label" translatable="yes">Apps/Tweaks</property>
+                    <property name="name">tweaksBrowser</property>
                     <property name="can-focus">False</property>
                     <property name="receives-default">True</property>
-                    <property name="tooltip-text" translatable="yes">Common application selection</property>
+                    <property name="tooltip-text" translatable="yes">Apps/Tweaks</property>
                     <property name="margin-left">15</property>
                     <property name="margin-right">15</property>
                     <signal name="clicked" handler="on_btn_clicked" swapped="no"/>
@@ -418,12 +441,12 @@ We, the Manjaro Developers, hope that you will enjoy using Manjaro as much as we
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkButton" id="appLayouts">
-                    <property name="label" translatable="yes">Gnome Layouts Manager</property>
-                    <property name="name">appLayouts</property>
+                  <object class="GtkButton" id="appBrowser">
+                    <property name="label" translatable="yes">Install Apps</property>
+                    <property name="name">appBrowser</property>
                     <property name="can-focus">False</property>
                     <property name="receives-default">True</property>
-                    <property name="tooltip-text" translatable="yes">Manjaro Gnome config tool</property>
+                    <property name="tooltip-text" translatable="yes">Common application selection</property>
                     <property name="margin-left">15</property>
                     <property name="margin-right">15</property>
                     <signal name="clicked" handler="on_btn_clicked" swapped="no"/>
@@ -453,7 +476,7 @@ We, the Manjaro Developers, hope that you will enjoy using Manjaro as much as we
                     <property name="name">telegram</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <signal name="button-press-event" handler="on_link_clicked" swapped="no"/>
+                    <signal name="button-press-event" handler="on_link1_clicked" swapped="no"/>
                     <child>
                       <object class="GtkImage" id="telegram">
                         <property name="visible">True</property>
@@ -470,15 +493,15 @@ We, the Manjaro Developers, hope that you will enjoy using Manjaro as much as we
                 </child>
                 <child>
                   <object class="GtkEventBox">
-                    <property name="name">facebook</property>
+                    <property name="name">discord</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <signal name="button-press-event" handler="on_link_clicked" swapped="no"/>
+                    <signal name="button-press-event" handler="on_link1_clicked" swapped="no"/>
                     <child>
-                      <object class="GtkImage" id="facebook">
+                      <object class="GtkImage" id="discord">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="tooltip-text">Facebook</property>
+                        <property name="tooltip-text">Discord</property>
                       </object>
                     </child>
                   </object>
@@ -490,30 +513,10 @@ We, the Manjaro Developers, hope that you will enjoy using Manjaro as much as we
                 </child>
                 <child>
                   <object class="GtkEventBox">
-                    <property name="name">twitter</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <signal name="button-press-event" handler="on_link_clicked" swapped="no"/>
-                    <child>
-                      <object class="GtkImage" id="twitter">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="tooltip-text">Twitter</property>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">2</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox">
                     <property name="name">reddit</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <signal name="button-press-event" handler="on_link_clicked" swapped="no"/>
+                    <signal name="button-press-event" handler="on_link1_clicked" swapped="no"/>
                     <child>
                       <object class="GtkImage" id="reddit">
                         <property name="visible">True</property>
@@ -525,7 +528,7 @@ We, the Manjaro Developers, hope that you will enjoy using Manjaro as much as we
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="position">3</property>
+                    <property name="position">2</property>
                   </packing>
                 </child>
                 <style>
@@ -566,7 +569,7 @@ We, the Manjaro Developers, hope that you will enjoy using Manjaro as much as we
       <object class="GtkHeaderBar" id="headerbar">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
-        <property name="title">Manjaro Hello</property>
+        <property name="title">CachyOS Hello</property>
         <property name="show-close-button">True</property>
         <child>
           <placeholder/>
@@ -591,82 +594,5 @@ We, the Manjaro Developers, hope that you will enjoy using Manjaro as much as we
         </child>
       </object>
     </child>
-  </object>
-  <object class="GtkAboutDialog" id="aboutdialog">
-    <property name="can-focus">False</property>
-    <property name="title" translatable="yes">About</property>
-    <property name="type-hint">dialog</property>
-    <property name="transient-for">window</property>
-    <property name="program-name">Manjaro Hello</property>
-    <property name="version">0.6.7</property>
-    <property name="comments" translatable="yes">Welcome screen for Manjaro</property>
-    <property name="website">https://gitlab.manjaro.org/applications/manjaro-hello</property>
-    <property name="website-label">GitLab</property>
-    <property name="authors">Hugo Posnic
-Johnathan Jenkins
-Frede Hundewadt
-Bernhard Landauer
-Philip Müller
-Papa Joker
-Oguz Kagan EREN</property>
-    <property name="translator-credits">abdelhak gasmi
-Al Manja
-Albert Cutrona
-Aleksandar Velimirović
-Alex Beliy
-Bernhard Landauer
-cges30901
-Daniel Napora
-DeMus
-Ersi Ni
-Fabio Forni
-Gabriel Blanca
-Hugo Carvalho
-Hugo Posnic
-Ilya Ostapenko aka Jacobtey
-Jeff Huang
-kouros kouros
-Lajos Pasztor
-László Szalai
-Leandro Cunha
-Lovro Kudelić
-Makaveli B
-mgundogdu
-Michael Kogan
-Midir Hakou
-Moo
-pavelrz
-secgin
-Stefano Capitani
-Stéphane
-Πέτρος Σαμαράς
-Андрей Раугас</property>
-    <property name="logo-icon-name"/>
-    <property name="license-type">gpl-3-0</property>
-    <child internal-child="vbox">
-      <object class="GtkBox">
-        <property name="can-focus">True</property>
-        <property name="has-focus">True</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">2</property>
-        <child internal-child="action_area">
-          <object class="GtkButtonBox">
-            <property name="can-focus">False</property>
-            <property name="layout-style">end</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-      </object>
-    </child>
-    <style>
-      <class name="aboutdialog"/>
-    </style>
   </object>
 </interface>
