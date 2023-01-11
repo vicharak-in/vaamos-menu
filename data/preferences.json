@@ -1,13 +1,13 @@
 {
     "autostart_path": "~/.config/autostart/vaamos-menu.desktop",
-    "data_path": "/usr/local/share/vaamos-menu/data/",
+    "data_path": "/usr/share/vaamos-menu/data/",
     "desktop_path": "/usr/share/applications/vaamos-menu.desktop",
     "installer_path": "/usr/bin/calamares",
     "live_path": "/run/archiso/bootmnt/arch",
     "locale_path": "/usr/share/locale/",
     "logo_path": "/usr/share/icons/hicolor/scalable/apps/",
-    "ui_path": "/usr/local/share/vaamos-menu/ui/vaamos-menu.glade",
-    "style_path": "/usr/local/share/vaamos-menu/ui/style.css",
+    "ui_path": "/usr/share/vaamos-menu/ui/vaamos-menu.glade",
+    "style_path": "/usr/share/vaamos-menu/ui/style.css",
     "urls": {
         "github": "https://github.com/vicharak-in",
         "software": "https://github.com/vicharak-in",
