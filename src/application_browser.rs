@@ -73,9 +73,10 @@ impl ApplicationBrowser {
         update_system_btn.set_sensitive(false);
 
         // Group filter
-        let data =
-            fs::read_to_string(format!("{PKGDATADIR}/data/application_utility/default.json"))
-                .expect("Unable to read file");
+        let data = fs::read_to_string(format!(
+            "{PKGDATADIR}/data/application_utility/default.json"
+        ))
+        .expect("Unable to read file");
         let groups: serde_json::Value = serde_json::from_str(&data).expect("Unable to parse");
         let group_store = load_groups_data(&groups);
         let group_combo = utils::create_combo_with_model(&group_store);
@@ -141,15 +142,19 @@ impl ApplicationBrowser {
                     continue;
                 }
 
-                let index = self.app_store.insert_with_values(None, None, &[
-                    (GROUP, &None::<String>),
-                    (ICON, &g_icon),
-                    (APPLICATION, &g_name),
-                    (DESCRIPTION, &g_desc),
-                    (ACTIVE, &-1_i32),
-                    (PACKAGE, &None::<String>),
-                    (INSTALLED, &-1_i32),
-                ]);
+                let index = self.app_store.insert_with_values(
+                    None,
+                    None,
+                    &[
+                        (GROUP, &None::<String>),
+                        (ICON, &g_icon),
+                        (APPLICATION, &g_name),
+                        (DESCRIPTION, &g_desc),
+                        (ACTIVE, &-1_i32),
+                        (PACKAGE, &None::<String>),
+                        (INSTALLED, &-1_i32),
+                    ],
+                );
                 store_size += 1;
 
                 for app in apps_map.as_array().unwrap() {
@@ -162,12 +167,16 @@ impl ApplicationBrowser {
 
                     // Restore user checks
                     if !status
-                        && self.alpm_helper.to_install(&String::from(app["pkg"].as_str().unwrap()))
+                        && self
+                            .alpm_helper
+                            .to_install(&String::from(app["pkg"].as_str().unwrap()))
                     {
                         status = true;
                     }
                     if status
-                        && self.alpm_helper.to_remove(&String::from(app["pkg"].as_str().unwrap()))
+                        && self
+                            .alpm_helper
+                            .to_remove(&String::from(app["pkg"].as_str().unwrap()))
                     {
                         status = false;
                     }
@@ -182,15 +191,22 @@ impl ApplicationBrowser {
 
                     let alpm_packages = alpm_packages_vec.join(" ");
 
-                    self.app_store.insert_with_values(Some(&index), None, &[
-                        (GROUP, &None::<String>),
-                        (ICON, &String::from(app["icon"].as_str().unwrap())),
-                        (APPLICATION, &String::from(app["name"].as_str().unwrap())),
-                        (DESCRIPTION, &String::from(app["description"].as_str().unwrap())),
-                        (ACTIVE, &status),
-                        (PACKAGE, &alpm_packages),
-                        (INSTALLED, &status),
-                    ]);
+                    self.app_store.insert_with_values(
+                        Some(&index),
+                        None,
+                        &[
+                            (GROUP, &None::<String>),
+                            (ICON, &String::from(app["icon"].as_str().unwrap())),
+                            (APPLICATION, &String::from(app["name"].as_str().unwrap())),
+                            (
+                                DESCRIPTION,
+                                &String::from(app["description"].as_str().unwrap()),
+                            ),
+                            (ACTIVE, &status),
+                            (PACKAGE, &alpm_packages),
+                            (INSTALLED, &status),
+                        ],
+                    );
                 }
             }
         }
@@ -208,7 +224,8 @@ impl ApplicationBrowser {
         }
         self.load_app_data();
         self.tree_view.set_model(Some(&self.app_store));
-        self.update_system_btn.set_sensitive(!self.alpm_helper.is_empty());
+        self.update_system_btn
+            .set_sensitive(!self.alpm_helper.is_empty());
     }
 
     fn create_view_tree(&mut self) -> usize {
@@ -219,8 +236,10 @@ impl ApplicationBrowser {
         self.tree_view = gtk::TreeView::with_model(&self.app_store);
         self.tree_view.set_activate_on_single_click(true);
         self.tree_view.set_has_tooltip(true);
-        self.tree_view.connect_query_tooltip(on_query_tooltip_tree_view);
-        self.tree_view.connect_button_press_event(on_button_press_event_tree_view);
+        self.tree_view
+            .connect_query_tooltip(on_query_tooltip_tree_view);
+        self.tree_view
+            .connect_button_press_event(on_button_press_event_tree_view);
 
         // column model: icon
         let icon = gtk::CellRendererPixbuf::new();
@@ -334,7 +353,9 @@ fn on_group_filter_changed(combo: &gtk::ComboBox) {
         app_browser.group_tofilter = String::from(group);
         app_browser.app_store.clear();
         app_browser.load_app_data();
-        app_browser.tree_view.set_model(Some(&app_browser.app_store));
+        app_browser
+            .tree_view
+            .set_model(Some(&app_browser.app_store));
         if group != "*" {
             app_browser.tree_view.expand_all();
         }
@@ -414,20 +435,32 @@ fn on_app_toggle(_cell: &gtk::CellRendererToggle, path: gtk::TreePath) {
 
     // a group has no package attached and we don't install groups
     if value_gobj.get::<&str>().is_ok() {
-        let toggle_a = app_store.value(&iter_a, ACTIVE as i32).get::<i32>().unwrap() == 1;
+        let toggle_a = app_store
+            .value(&iter_a, ACTIVE as i32)
+            .get::<i32>()
+            .unwrap()
+            == 1;
         app_store.set(&iter_a, &[(ACTIVE, &!toggle_a)]);
 
         let alpm_handle = app_browser.get_alpm_handle();
         let update_system_button = app_browser.update_system_btn.clone();
         let localdb = alpm_handle.localdb();
-        let alpm_packages = app_store.value(&iter_a, PACKAGE as i32).get::<String>().unwrap();
-        let alpm_packages_vec = alpm_packages.split(' ').map(String::from).collect::<Vec<String>>();
+        let alpm_packages = app_store
+            .value(&iter_a, PACKAGE as i32)
+            .get::<String>()
+            .unwrap();
+        let alpm_packages_vec = alpm_packages
+            .split(' ')
+            .map(String::from)
+            .collect::<Vec<String>>();
 
         let pkg = alpm_packages_vec.first().unwrap();
 
         let installed = localdb.pkg(pkg.as_bytes()).is_ok();
         // update lists
-        app_browser.alpm_helper.set_package(&alpm_packages, !toggle_a, installed);
+        app_browser
+            .alpm_helper
+            .set_package(&alpm_packages, !toggle_a, installed);
         update_system_button.set_sensitive(!app_browser.alpm_helper.is_empty());
     }
 }

@@ -15,7 +15,10 @@ pub struct SystemdUnits {
 
 impl SystemdUnits {
     pub fn new() -> Self {
-        Self { loaded_units: Vec::new(), enabled_units: Vec::new() }
+        Self {
+            loaded_units: Vec::new(),
+            enabled_units: Vec::new(),
+        }
     }
 }
 

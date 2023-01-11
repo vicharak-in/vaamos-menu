@@ -125,8 +125,16 @@ fn create_options_section() -> gtk::Box {
     for btn in &[&psd_btn, &systemd_oomd_btn, &apparmor_btn, &ananicy_cpp_btn] {
         unsafe {
             let data: &str = *btn.data("actionData").unwrap().as_ptr();
-            if g_local_units.lock().unwrap().enabled_units.contains(&String::from(data))
-                || g_global_units.lock().unwrap().enabled_units.contains(&String::from(data))
+            if g_local_units
+                .lock()
+                .unwrap()
+                .enabled_units
+                .contains(&String::from(data))
+                || g_global_units
+                    .lock()
+                    .unwrap()
+                    .enabled_units
+                    .contains(&String::from(data))
             {
                 btn.set_active(true);
             }
@@ -235,9 +243,17 @@ fn load_enabled_units() {
 
         for service in service_list {
             let out: Vec<&str> = service.split(' ').collect();
-            g_local_units.lock().unwrap().loaded_units.push(String::from(out[0]));
+            g_local_units
+                .lock()
+                .unwrap()
+                .loaded_units
+                .push(String::from(out[0]));
             if out[1] == "enabled" {
-                g_local_units.lock().unwrap().enabled_units.push(String::from(out[0]));
+                g_local_units
+                    .lock()
+                    .unwrap()
+                    .enabled_units
+                    .push(String::from(out[0]));
             }
         }
     }
@@ -259,9 +275,17 @@ fn load_global_enabled_units() {
         let service_list = exec_out.split('\n');
         for service in service_list {
             let out: Vec<&str> = service.split(' ').collect();
-            g_global_units.lock().unwrap().loaded_units.push(String::from(out[0]));
+            g_global_units
+                .lock()
+                .unwrap()
+                .loaded_units
+                .push(String::from(out[0]));
             if out[1] == "enabled" {
-                g_global_units.lock().unwrap().enabled_units.push(String::from(out[0]));
+                g_global_units
+                    .lock()
+                    .unwrap()
+                    .enabled_units
+                    .push(String::from(out[0]));
             }
         }
     }
@@ -364,8 +388,11 @@ fn on_servbtn_clicked(button: &gtk::CheckButton) {
         action_data = *button.data("actionData").unwrap().as_ptr();
     }
 
-    let (user_only, pkexec_only) =
-        if action_type == "user_service" { ("--user", "--user $(logname)") } else { ("", "") };
+    let (user_only, pkexec_only) = if action_type == "user_service" {
+        ("--user", "--user $(logname)")
+    } else {
+        ("", "")
+    };
 
     let cmd: String;
     unsafe {
@@ -479,8 +506,12 @@ fn on_appbtn_clicked(button: &gtk::Button) {
     }
 
     // Get executable path.
-    let mut exe_path =
-        Exec::cmd("which").arg(binname).stdout(Redirection::Pipe).capture().unwrap().stdout_str();
+    let mut exe_path = Exec::cmd("which")
+        .arg(binname)
+        .stdout(Redirection::Pipe)
+        .capture()
+        .unwrap()
+        .stdout_str();
     exe_path.pop();
     let bash_cmd = format!("{} {}", &envs, &exe_path);
 
@@ -490,12 +521,20 @@ fn on_appbtn_clicked(button: &gtk::Button) {
     // Spawn child process in separate thread.
     std::thread::spawn(move || {
         let exit_status = if is_sudo {
-            Exec::cmd("/sbin/pkexec").arg("bash").arg("-c").arg(bash_cmd).join().unwrap()
+            Exec::cmd("/sbin/pkexec")
+                .arg("bash")
+                .arg("-c")
+                .arg(bash_cmd)
+                .join()
+                .unwrap()
         } else {
             Exec::shell(bash_cmd).join().unwrap()
         };
-        tx.send(format!("Exit status successfully? = {:?}", exit_status.success()))
-            .expect("Couldn't send data to channel");
+        tx.send(format!(
+            "Exit status successfully? = {:?}",
+            exit_status.success()
+        ))
+        .expect("Couldn't send data to channel");
     });
 
     rx.attach(None, move |text| {

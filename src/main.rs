@@ -9,7 +9,7 @@ mod data_types;
 mod pages;
 mod utils;
 
-use config::{VERSION, APP_ID, GETTEXT_PACKAGE, LOCALEDIR, PKGDATADIR};
+use config::{APP_ID, GETTEXT_PACKAGE, LOCALEDIR, PKGDATADIR, VERSION};
 use data_types::*;
 use gettextrs::LocaleCategory;
 use gtk::{gio, glib, Builder, Window};

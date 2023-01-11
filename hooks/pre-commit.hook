@@ -1,59 +1,72 @@
 #!/bin/sh
-# shellcheck disable=SC3020
-# shellcheck disable=SC3037
+# shellcheck disable=SC3020,SC3037
 # Source: https://gitlab.gnome.org/GNOME/fractal/blob/master/hooks/pre-commit.hook
 
 install_rustfmt() {
-    if ! which rustup &> /dev/null; then
-        curl https://sh.rustup.rs -sSf  | sh -s -- -y
-        export PATH="${PATH}":"${HOME}"/.cargo/bin
-        if ! which rustup &> /dev/null; then
-            echo "Failed to install rustup. Performing the commit without style checking."
-            exit 0
-        fi
-    fi
+	if
+		! which rustup &>/dev/null
+	then
+		curl https://sh.rustup.rs -sSf | sh -s -- -y
+		export PATH="${PATH}":"${HOME}"/.cargo/bin
+		if
+			! which rustup &>/dev/null
+		then
+			echo "Failed to install rustup. Performing the commit without style checking."
+			exit 0
+		fi
+	fi
 
-    if ! rustup component list|grep rustfmt &> /dev/null; then
-        echo "Installing rustfmt…"
-        rustup component add rustfmt
-    fi
+	if
+		! rustup component list | grep rustfmt &>/dev/null
+	then
+		echo "Installing rustfmt…"
+		rustup component add rustfmt
+	fi
 }
 
 if ! which cargo >/dev/null 2>&1 || ! cargo fmt --help >/dev/null 2>&1; then
-    echo "Unable to check the project’s code style, because rustfmt could not be run."
+	echo "Unable to check the project’s code style, because rustfmt could not be run."
 
-    if [ ! -t 1 ]; then
-        # No input is possible
-        echo "Performing commit."
-        exit 0
-    fi
+	if [ ! -t 1 ]; then
+		# No input is possible
+		echo "Performing commit."
+		exit 0
+	fi
 
-    echo ""
-    echo "y: Install rustfmt via rustup"
-    echo "n: Don't install rustfmt and perform the commit"
-    echo "Q: Don't install rustfmt and abort the commit"
+	echo ""
+	echo "y: Install rustfmt via rustup"
+	echo "n: Don't install rustfmt and perform the commit"
+	echo "Q: Don't install rustfmt and abort the commit"
 
-    echo ""
-    while true
-    do
-		echo -n "Install rustfmt? [y/n/Q] ";
+	echo ""
+	while true; do
+		echo -n "Install rustfmt? [y/n/Q] "
 		read -r answer
 		case $answer in
-			[yY]* ) install_rustfmt; break;;
-			[nN]* ) echo "Performing commit."; exit 0;;
-			[qQ]* ) echo "Aborting commit."; exit 1;;
-			* ) echo "Please answer y, n or Q.";;
-        esac
-    done
+		[yY]*)
+			install_rustfmt
+			break
+			;;
+		[nN]*)
+			echo "Performing commit."
+			exit 0
+			;;
+		[qQ]*)
+			echo "Aborting commit."
+			exit 1
+			;;
+		*) echo "Please answer y, n or Q." ;;
+		esac
+	done
 fi
 
 echo "--Checking style--"
 cargo fmt --all -- --check
 if test $? != 0; then
-    echo "--Checking style fail--"
-    echo "Please fix the above issues, either manually or by running: cargo fmt --all"
+	echo "--Checking style fail--"
+	echo "Please fix the above issues, either manually or by running: cargo fmt --all"
 
-    exit 1
+	exit 1
 else
-    echo "--Checking style pass--"
+	echo "--Checking style pass--"
 fi
