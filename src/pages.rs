@@ -73,7 +73,7 @@ fn create_fixes_section() -> gtk::Box {
     rankmirrors_btn.connect_clicked(move |_| {
         // Spawn child process in separate thread.
         std::thread::spawn(move || {
-            let _ = utils::run_cmd_terminal(String::from("cachyos-rate-mirrors"), true);
+            let _ = utils::run_cmd_terminal(String::from("vaamos-rate-mirrors"), true);
         });
     });
 
@@ -146,7 +146,7 @@ fn create_options_section() -> gtk::Box {
     };
 
     {
-        let pkg_name = "cachyos-dnscrypt-proxy";
+        let pkg_name = "vaamos-dnscrypt-proxy";
         let service_unit_name = "dnscrypt-proxy.service";
 
         let is_installed = check_is_pkg_installed(pkg_name);
@@ -164,10 +164,10 @@ fn create_options_section() -> gtk::Box {
     dnscrypt_btn.connect_clicked(move |_| {
         // Spawn child process in separate thread.
         std::thread::spawn(move || {
-            let pkg_name = "cachyos-dnscrypt-proxy";
+            let pkg_name = "vaamos-dnscrypt-proxy";
             let service_unit_name = "dnscrypt-proxy.service";
             if !check_is_pkg_installed(pkg_name) {
-                let _ = utils::run_cmd_terminal(format!("pacman -S {}", pkg_name), true);
+                let _ = utils::run_cmd_terminal(format!("pacman -S {pkg_name}"), true);
                 load_enabled_units();
                 return;
             }
@@ -201,16 +201,10 @@ fn create_apps_section() -> Option<gtk::Box> {
     label.set_text("Applications");
 
     // Check first btn.
-    if Path::new("/sbin/cachyos-pi-bin").exists() {
-        let cachyos_pi = gtk::Button::with_label("CachyOS PackageInstaller");
-        cachyos_pi.connect_clicked(on_appbtn_clicked);
-        box_collection.pack_start(&cachyos_pi, true, true, 2);
-    }
-    // Check second btn.
-    if Path::new("/sbin/cachyos-kernel-manager").exists() {
-        let cachyos_km = gtk::Button::with_label("CachyOS Kernel Manager");
-        cachyos_km.connect_clicked(on_appbtn_clicked);
-        box_collection.pack_start(&cachyos_km, true, true, 2);
+    if Path::new("/sbin/vaamos-pi-bin").exists() {
+        let vaamos_pi = gtk::Button::with_label("VaamOS PackageInstaller");
+        vaamos_pi.connect_clicked(on_appbtn_clicked);
+        box_collection.pack_start(&vaamos_pi, true, true, 2);
     }
 
     topbox.pack_start(&label, true, true, 5);
@@ -289,7 +283,7 @@ pub fn create_tweaks_page(builder: &Builder) {
     back_btn.connect_clicked(glib::clone!(@weak builder => move |button| {
         let name = button.widget_name();
         let stack: gtk::Stack = builder.object("stack").unwrap();
-        stack.set_visible_child_name(&format!("{}page", name));
+        stack.set_visible_child_name(&format!("{name}page"));
     }));
 
     let options_section_box = create_options_section();
@@ -336,7 +330,7 @@ pub fn create_appbrowser_page(builder: &Builder) {
     back_btn.connect_clicked(glib::clone!(@weak builder => move |button| {
         let name = button.widget_name();
         let stack: gtk::Stack = builder.object("stack").unwrap();
-        stack.set_visible_child_name(&format!("{}page", name));
+        stack.set_visible_child_name(&format!("{name}page"));
     }));
 
     let grid = gtk::Grid::new();
@@ -378,13 +372,13 @@ fn on_servbtn_clicked(button: &gtk::CheckButton) {
         let local_units = &g_local_units.lock().unwrap().enabled_units;
         cmd = if !local_units.contains(&String::from(action_data)) {
             format!(
-                "/sbin/pkexec {} bash -c \"systemctl {} enable --now --force {}\"",
-                pkexec_only, user_only, action_data
+                "/sbin/pkexec {pkexec_only} bash -c \"systemctl {user_only} enable --now --force \
+                 {action_data}\""
             )
         } else {
             format!(
-                "/sbin/pkexec {} bash -c \"systemctl {} disable --now {}\"",
-                pkexec_only, user_only, action_data
+                "/sbin/pkexec {pkexec_only} bash -c \"systemctl {user_only} disable --now \
+                 {action_data}\""
             )
         };
     }
@@ -414,14 +408,14 @@ fn on_refreshkeyring_btn_clicked(_: &gtk::Button) {
         .map(|pkg| {
             let mut pkgname = String::from(pkg.name());
             pkgname.remove_matches("-keyring");
-            format!("{} ", pkgname)
+            format!("{pkgname} ")
         })
         .collect::<String>();
 
     // Spawn child process in separate thread.
     std::thread::spawn(move || {
         let _ = utils::run_cmd_terminal(
-            format!("pacman-key --init && pacman-key --populate {}", needles),
+            format!("pacman-key --init && pacman-key --populate {needles}"),
             true,
         );
     });
@@ -456,10 +450,10 @@ fn on_clear_pkgcache_btn_clicked(_: &gtk::Button) {
 fn on_appbtn_clicked(button: &gtk::Button) {
     // Get button label.
     let name = button.label().unwrap();
-    let (binname, is_sudo) = if name == "CachyOS PackageInstaller" {
-        ("cachyos-pi-bin", true)
-    } else if name == "CachyOS Kernel Manager" {
-        ("cachyos-kernel-manager", false)
+    let (binname, is_sudo) = if name == "VaamOS PackageInstaller" {
+        ("vaamos-pi-bin", true)
+    } else if name == "VaamOS Kernel Manager" {
+        ("vaamos-kernel-manager", false)
     } else {
         ("", false)
     };
@@ -505,7 +499,7 @@ fn on_appbtn_clicked(button: &gtk::Button) {
     });
 
     rx.attach(None, move |text| {
-        println!("{}", text);
+        println!("{text}");
         glib::Continue(true)
     });
 }

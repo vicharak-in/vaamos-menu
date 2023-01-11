@@ -1,0 +1,101 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-01-11 11:06+0530\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../ui/vaamos-menu.glade:59
+msgid "Welcome to VaamOS!"
+msgstr ""
+
+#: ../ui/vaamos-menu.glade:76
+msgid ""
+"VaamOS a custom Arch Based OS for Vaamon Board\n"
+"\t\t\t"
+msgstr ""
+
+#: ../ui/vaamos-menu.glade:93
+msgid "DOCUMENTATION"
+msgstr ""
+
+#: ../ui/vaamos-menu.glade:107
+msgid "SUPPORT"
+msgstr ""
+
+#: ../ui/vaamos-menu.glade:121
+msgid "PROJECT"
+msgstr ""
+
+#: ../ui/vaamos-menu.glade:133
+msgid "README"
+msgstr ""
+
+#: ../ui/vaamos-menu.glade:147
+msgid "About Us"
+msgstr ""
+
+#: ../ui/vaamos-menu.glade:162
+msgid "Wiki"
+msgstr ""
+
+#: ../ui/vaamos-menu.glade:167 ../ui/vaamos-menu.glade:198
+#: ../ui/vaamos-menu.glade:215 ../ui/vaamos-menu.glade:232
+msgid "Web resource"
+msgstr ""
+
+#: ../ui/vaamos-menu.glade:179
+msgid "Get involved"
+msgstr ""
+
+#: ../ui/vaamos-menu.glade:193
+msgid "Forums"
+msgstr ""
+
+#: ../ui/vaamos-menu.glade:210
+msgid "Software"
+msgstr ""
+
+#: ../ui/vaamos-menu.glade:227
+msgid "Github"
+msgstr ""
+
+#: ../ui/vaamos-menu.glade:262
+msgid "INSTALLATION"
+msgstr ""
+
+#: ../ui/vaamos-menu.glade:274
+msgid "Launch installer"
+msgstr ""
+
+#: ../ui/vaamos-menu.glade:293 ../ui/vaamos-menu.glade:297
+msgid "Apps/Tweaks"
+msgstr ""
+
+#: ../ui/vaamos-menu.glade:310
+msgid "Install Apps"
+msgstr ""
+
+#: ../ui/vaamos-menu.glade:314
+msgid "Common application selection"
+msgstr ""
+
+#: ../ui/vaamos-menu.glade:371
+msgid "Configure your Linux"
+msgstr ""
+
+#: ../ui/vaamos-menu.glade:379
+msgid "About"
+msgstr ""

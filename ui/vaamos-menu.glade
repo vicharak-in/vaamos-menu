@@ -1,31 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Generated with glade 3.40.0
-
-Copyright (C) 2021-2023 CachyOS team
-
-This file is part of cachyos-welcome.
-
-cachyos-welcome is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-cachyos-welcome is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with cachyos-welcome.  If not, see <http://www.gnu.org/licenses/>.
-
+Copyright (C) 2023 VaamOS team
 -->
-<interface domain="cachyos-hello">
+<interface domain="vaamos-menu">
   <requires lib="gtk+" version="3.20"/>
   <!-- interface-css-provider-path style.css -->
   <!-- interface-license-type gplv3 -->
-  <!-- interface-name cachyos-welcome -->
-  <!-- interface-copyright 2021-2023 CachyOS team -->
-  <object class="GtkImage" id="abouticon">
+  <!-- interface-name vaamos-menu -->
+  <!-- interface-copyright 2023 VaamOS team -->
+    <object class="GtkImage" id="abouticon">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
     <property name="icon-name">help-about</property>
@@ -71,7 +54,8 @@ along with cachyos-welcome.  If not, see <http://www.gnu.org/licenses/>.
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="has-focus">True</property>
-                <property name="label" translatable="yes">Welcome to CachyOS!</property>
+                <property name="label" translatable="yes">Welcome to VaamOS!</property>
+                <property name="use-underline">True</property>
                 <attributes>
                   <attribute name="weight" value="bold"/>
                   <attribute name="scale" value="2"/>
@@ -87,9 +71,8 @@ along with cachyos-welcome.  If not, see <http://www.gnu.org/licenses/>.
               <object class="GtkLabel" id="welcomelabel">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="label" translatable="yes">Thank you for joining our community!
-
-We, the CachyOS Developers, hope that you will enjoy using CachyOS as much as we enjoy building it. The links below will help you get started with your new operating system. So enjoy the experience, and don't hesitate to send us your feedback.</property>
+                <property name="label" translatable="yes">VaamOS a custom Arch Based OS for Vaamon Board
+			</property>
                 <property name="justify">fill</property>
                 <property name="wrap">True</property>
                 <property name="width-chars">1</property>
@@ -145,7 +128,7 @@ We, the CachyOS Developers, hope that you will enjoy using CachyOS as much as we
             </child>
             <child>
               <object class="GtkButton" id="readme">
-                <property name="label" translatable="yes">Read me</property>
+                <property name="label" translatable="yes">README</property>
                 <property name="name">readme</property>
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
@@ -158,8 +141,8 @@ We, the CachyOS Developers, hope that you will enjoy using CachyOS as much as we
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="release">
-                <property name="label" translatable="yes">Release info</property>
+              <object class="GtkButton" id="aboutus">
+                <property name="label" translatable="yes">About Us</property>
                 <property name="name">release</property>
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
@@ -238,26 +221,9 @@ We, the CachyOS Developers, hope that you will enjoy using CachyOS as much as we
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="mailling">
-                <property name="label" translatable="yes">Mailing lists</property>
-                <property name="name">mailling</property>
-                <property name="visible">False</property>
-                <property name="can-focus">False</property>
-                <property name="receives-default">True</property>
-                <property name="tooltip-text" translatable="yes">Web resource</property>
-                <property name="image-position">right</property>
-                <property name="always-show-image">True</property>
-                <signal name="clicked" handler="on_link_clicked" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left-attach">1</property>
-                <property name="top-attach">7</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="development">
-                <property name="label" translatable="yes">Development</property>
-                <property name="name">development</property>
+              <object class="GtkButton" id="github">
+                <property name="label" translatable="yes">Github</property>
+                <property name="name">github</property>
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="receives-default">True</property>
@@ -272,23 +238,6 @@ We, the CachyOS Developers, hope that you will enjoy using CachyOS as much as we
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="donate">
-                <property name="label" translatable="yes">Donate</property>
-                <property name="name">donate</property>
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="receives-default">True</property>
-                <property name="tooltip-text" translatable="yes">Web resource</property>
-                <property name="image-position">right</property>
-                <property name="always-show-image">True</property>
-                <signal name="clicked" handler="on_link_clicked" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left-attach">2</property>
-                <property name="top-attach">7</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkBox">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
@@ -296,93 +245,7 @@ We, the CachyOS Developers, hope that you will enjoy using CachyOS as much as we
                 <property name="vexpand">True</property>
                 <property name="spacing">10</property>
                 <child>
-                  <object class="GtkComboBoxText" id="languages">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <items>
-                      <item id="sq">Albanian</item>
-                      <item id="ar">Arabic</item>
-                      <item id="ast-ES">Asturian (Spain)</item>
-                      <item id="be">Belarusian</item>
-                      <item id="bg">Bulgarian</item>
-                      <item id="ca">Catalan</item>
-                      <item id="zh-CN">Chinese (China)</item>
-                      <item id="zh-TW">Chinese (Taiwan)</item>
-                      <item id="hr">Croatian</item>
-                      <item id="cs">Czech</item>
-                      <item id="da">Danish</item>
-                      <item id="nl">Dutch</item>
-                      <item id="en">English</item>
-                      <item id="fi">Finnish</item>
-                      <item id="fr">French</item>
-                      <item id="de">German</item>
-                      <item id="ka">Georgian</item>
-                      <item id="el-GR">Greek (Greece)</item>
-                      <item id="he">Hebrew</item>
-                      <item id="hi-IN">Hindi (India)</item>
-                      <item id="hu">Hungarian</item>
-                      <item id="is">Icelandic</item>
-                      <item id="id-ID">Indonesian (Indonesia)</item>
-                      <item id="it">Italian</item>
-                      <item id="ja">Japanese</item>
-                      <item id="ko-KR">Korean (Korea)</item>
-                      <item id="lt">Lithuanian</item>
-                      <item id="nb">Norwegian Bokmål</item>
-                      <item id="fa-IR">Persian (Iran)</item>
-                      <item id="pl">Polish</item>
-                      <item id="pt-BR">Portuguese (Brazil)</item>
-                      <item id="pt-PT">Portuguese (Portugal)</item>
-                      <item id="ro-RO">Romanian (Romania)</item>
-                      <item id="ru">Russian</item>
-                      <item id="sk">Slovak</item>
-                      <item id="sl-SI">Slovenian (Slovenia)</item>
-                      <item id="sl">Slovenian</item>
-                      <item id="es">Spanish</item>
-                      <item id="sr-RS">Serbian (Serbia)</item>
-                      <item id="sr">Serbian</item>
-                      <item id="sv">Swedish</item>
-                      <item id="th">Thai</item>
-                      <item id="tr">Turkish</item>
-                      <item id="uk">Ukrainian</item>
-                      <item id="vi-VN">Vietnamese (Viet Nam)</item>
-                    </items>
-                    <signal name="changed" handler="on_languages_changed" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="autostartlabel">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="halign">end</property>
-                    <property name="valign">center</property>
-                    <property name="vexpand">True</property>
-                    <property name="label" translatable="yes">Launch at start</property>
-                  </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkSwitch" id="autostart">
-                    <property name="name">autostart</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                    <property name="valign">center</property>
-                    <property name="vexpand">True</property>
-                    <signal name="notify::active" handler="on_action_clicked" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">2</property>
-                  </packing>
+                  <placeholder/>
                 </child>
               </object>
               <packing>
@@ -465,80 +328,13 @@ We, the CachyOS Developers, hope that you will enjoy using CachyOS as much as we
               </packing>
             </child>
             <child>
-              <object class="GtkBox" id="social">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="halign">center</property>
-                <property name="valign">end</property>
-                <property name="spacing">10</property>
-                <child>
-                  <object class="GtkEventBox">
-                    <property name="name">telegram</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <signal name="button-press-event" handler="on_link1_clicked" swapped="no"/>
-                    <child>
-                      <object class="GtkImage" id="telegram">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="tooltip-text">Telegram</property>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox">
-                    <property name="name">discord</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <signal name="button-press-event" handler="on_link1_clicked" swapped="no"/>
-                    <child>
-                      <object class="GtkImage" id="discord">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="tooltip-text">Discord</property>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox">
-                    <property name="name">reddit</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <signal name="button-press-event" handler="on_link1_clicked" swapped="no"/>
-                    <child>
-                      <object class="GtkImage" id="reddit">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="tooltip-text">Reddit</property>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">2</property>
-                  </packing>
-                </child>
-                <style>
-                  <class name="social"/>
-                </style>
-              </object>
-              <packing>
-                <property name="left-attach">1</property>
-                <property name="top-attach">10</property>
-              </packing>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
             </child>
             <child>
               <placeholder/>
@@ -569,11 +365,9 @@ We, the CachyOS Developers, hope that you will enjoy using CachyOS as much as we
       <object class="GtkHeaderBar" id="headerbar">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
-        <property name="title">CachyOS Hello</property>
+        <property name="title">VaamOS Menu</property>
+        <property name="subtitle" translatable="yes">Configure your Linux</property>
         <property name="show-close-button">True</property>
-        <child>
-          <placeholder/>
-        </child>
         <child>
           <object class="GtkButton" id="about">
             <property name="name">about</property>
@@ -581,16 +375,13 @@ We, the CachyOS Developers, hope that you will enjoy using CachyOS as much as we
             <property name="can-focus">False</property>
             <property name="receives-default">True</property>
             <property name="tooltip-text" translatable="yes">About</property>
-            <property name="image">abouticon</property>
+			<property name="image">abouticon</property>
             <signal name="clicked" handler="on_action_clicked" swapped="no"/>
           </object>
           <packing>
             <property name="pack-type">end</property>
             <property name="position">1</property>
           </packing>
-        </child>
-        <child>
-          <placeholder/>
         </child>
       </object>
     </child>

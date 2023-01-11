@@ -107,26 +107,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "dfb24e866b15a1af2a1b663f10c6b6b8f397a84aadb828f12e5b289ec23a3a3c"
 
 [[package]]
-name = "cachyos-hello"
-version = "0.9.1"
-dependencies = [
- "alpm",
- "alpm-utils",
- "gdk",
- "gdk-pixbuf",
- "gettext-rs",
- "gio",
- "glib",
- "gtk",
- "once_cell",
- "pacmanconf",
- "reqwest",
- "serde",
- "serde_json",
- "subprocess",
-]
-
-[[package]]
 name = "cairo-rs"
 version = "0.16.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1428,6 +1408,26 @@ dependencies = [
  "form_urlencoded",
  "idna",
  "percent-encoding",
+]
+
+[[package]]
+name = "vaamos-menu"
+version = "0.1.1"
+dependencies = [
+ "alpm",
+ "alpm-utils",
+ "gdk",
+ "gdk-pixbuf",
+ "gettext-rs",
+ "gio",
+ "glib",
+ "gtk",
+ "once_cell",
+ "pacmanconf",
+ "reqwest",
+ "serde",
+ "serde_json",
+ "subprocess",
 ]
 
 [[package]]

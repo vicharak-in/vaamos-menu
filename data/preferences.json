@@ -1,25 +1,17 @@
 {
-    "default_locale": "en",
-    "autostart_path": "~/.config/autostart/cachyos-hello.desktop",
-    "data_path": "/usr/share/cachyos-hello/data/",
-    "desktop_path": "/usr/share/applications/cachyos-hello.desktop",
+    "autostart_path": "~/.config/autostart/vaamos-menu.desktop",
+    "data_path": "/usr/local/share/vaamos-menu/data/",
+    "desktop_path": "/usr/share/applications/vaamos-menu.desktop",
     "installer_path": "/usr/bin/calamares",
     "live_path": "/run/archiso/bootmnt/arch",
     "locale_path": "/usr/share/locale/",
     "logo_path": "/usr/share/icons/hicolor/scalable/apps/",
-    "save_path": "~/.config/cachyos-hello.json",
-    "ui_path": "/usr/share/cachyos-hello/ui/cachyos-hello.glade",
-    "style_path": "/usr/share/cachyos-hello/ui/style.css",
+    "ui_path": "/usr/local/share/vaamos-menu/ui/vaamos-menu.glade",
+    "style_path": "/usr/local/share/vaamos-menu/ui/style.css",
     "urls": {
-        "development": "https://github.com/cachyos",
-        "software": "https://github.com/cachyos/cachyos-pkgbuilds",
-        "donate": "https://www.patreon.com/CachyOS",
-        "forum": "https://forum.cachyos.org",
-        "telegram": "https://t.me/+oR-kWT47vRdmMDli",
-        "discord": "https://discord.gg/qJqj94uFwE",
-        "mailling": "https://lists.cachyos.org/cgi-bin/mailman/listinfo",
-        "reddit": "https://www.reddit.com/r/cachyos",
-        "twitter": "https://twitter.com/cachyos",
-        "wiki": "https://wiki.cachyos.org"
+        "github": "https://github.com/vicharak-in",
+        "software": "https://github.com/vicharak-in",
+        "forum": "https://vicharak.in",
+        "wiki": "https://vicharak.in"
     }
 }

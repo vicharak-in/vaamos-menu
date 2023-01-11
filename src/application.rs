@@ -22,7 +22,7 @@ mod imp {
     impl ObjectSubclass for Application {
         type Type = super::Application;
 
-        const NAME: &'static str = "CachyOSHello";
+        const NAME: &'static str = "VaamOSHello";
     }
 
     impl ObjectImpl for Application {}
@@ -37,7 +37,9 @@ mod imp {
             }
 
             let window = MainWindow::new(app);
-            self.window.set(window.downgrade()).expect("Window already set.");
+            self.window
+                .set(window.downgrade())
+                .expect("Window already set.");
 
             app.main_window().present();
         }
@@ -74,15 +76,15 @@ impl Application {
         let dialog = gtk::AboutDialog::builder()
             .transient_for(&self.main_window())
             .modal(true)
-            .program_name(&gettext("Kooha"))
-            .comments(&gettext("Elegantly record your screen"))
+            .program_name(&gettext("VamOS"))
+            .comments(&gettext("Manage your arch linux"))
             .version(VERSION)
             .logo_icon_name(APP_ID)
             .authors(vec![
                 "Dave Patrick".into(),
-                "".into(),
                 "Mathiascode".into(),
                 "Felix Weilbach".into(),
+                "Utsav Balar".into(),
             ])
             // Translators: Replace "translator-credits" with your names. Put a comma between.
             .translator_credits(&gettext("translator-credits"))

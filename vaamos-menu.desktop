@@ -1,0 +1,9 @@
+[Desktop Entry]
+Terminal=false
+Type=Application
+Categories=GNOME;GTK;System;
+StartupNotify=false
+Name=VaamOS Menu
+Exec=/usr/bin/vaamos-menu
+Icon=org.vaamos.menu
+Comment=VaamOS Menu for management of packages

@@ -1,6 +1,6 @@
 #[derive(Clone, Debug)]
 #[repr(C)]
-pub struct HelloWindow {
+pub struct MenuWindow {
     pub builder: gtk::Builder,
     pub window: gtk::Window,
     pub preferences: serde_json::Value,

@@ -74,7 +74,7 @@ impl ApplicationBrowser {
 
         // Group filter
         let data =
-            fs::read_to_string(format!("{}/data/application_utility/default.json", PKGDATADIR))
+            fs::read_to_string(format!("{PKGDATADIR}/data/application_utility/default.json"))
                 .expect("Unable to read file");
         let groups: serde_json::Value = serde_json::from_str(&data).expect("Unable to parse");
         let group_store = load_groups_data(&groups);
@@ -146,9 +146,9 @@ impl ApplicationBrowser {
                     (ICON, &g_icon),
                     (APPLICATION, &g_name),
                     (DESCRIPTION, &g_desc),
-                    (ACTIVE, &-1),
+                    (ACTIVE, &-1_i32),
                     (PACKAGE, &None::<String>),
-                    (INSTALLED, &-1),
+                    (INSTALLED, &-1_i32),
                 ]);
                 store_size += 1;
 
