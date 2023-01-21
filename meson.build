@@ -29,7 +29,7 @@ major_version = version_array[0].to_int()
 minor_version = version_array[1].to_int()
 version_micro = version_array[2].to_int()
 
-prefix = get_option('prefix')
+prefix = '/usr'
 bindir = prefix / get_option('bindir')
 localedir = prefix / get_option('localedir')
 

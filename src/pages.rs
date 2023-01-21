@@ -1,21 +1,14 @@
 use crate::application_browser::ApplicationBrowser;
-use crate::data_types::*;
 use crate::utils;
 use crate::utils::PacmanWrapper;
 use gtk::{glib, Builder};
-use once_cell::sync::Lazy;
 use std::fmt::Write as _;
 use std::path::Path;
-use std::sync::Mutex;
 
 use gtk::prelude::*;
 
 use std::str;
 use subprocess::{Exec, Redirection};
-
-static mut g_local_units: Lazy<Mutex<SystemdUnits>> = Lazy::new(|| Mutex::new(SystemdUnits::new()));
-static mut g_global_units: Lazy<Mutex<SystemdUnits>> =
-    Lazy::new(|| Mutex::new(SystemdUnits::new()));
 
 fn create_fixes_section() -> gtk::Box {
     let topbox = gtk::Box::new(gtk::Orientation::Vertical, 2);
@@ -25,15 +18,13 @@ fn create_fixes_section() -> gtk::Box {
     let label = gtk::Label::new(None);
     label.set_line_wrap(true);
     label.set_justify(gtk::Justification::Center);
-    label.set_text("Fixes");
+    label.set_text("Available Options:");
 
     let removelock_btn = gtk::Button::with_label("Remove db lock");
     let reinstall_btn = gtk::Button::with_label("Reinstall all packages");
-    let refreshkeyring_btn = gtk::Button::with_label("Refresh keyrings");
     let update_system_btn = gtk::Button::with_label("System update");
     let remove_orphans_btn = gtk::Button::with_label("Remove orphans");
     let clear_pkgcache_btn = gtk::Button::with_label("Clear package cache");
-    let rankmirrors_btn = gtk::Button::with_label("Rank mirrors");
 
     removelock_btn.connect_clicked(move |_| {
         // Spawn child process in separate thread.
@@ -61,7 +52,6 @@ fn create_fixes_section() -> gtk::Box {
             let _ = utils::run_cmd_terminal(String::from("pacman -S $(pacman -Qnq)"), true);
         });
     });
-    refreshkeyring_btn.connect_clicked(on_refreshkeyring_btn_clicked);
     update_system_btn.connect_clicked(on_update_system_btn_clicked);
     remove_orphans_btn.connect_clicked(move |_| {
         // Spawn child process in separate thread.
@@ -70,131 +60,19 @@ fn create_fixes_section() -> gtk::Box {
         });
     });
     clear_pkgcache_btn.connect_clicked(on_clear_pkgcache_btn_clicked);
-    rankmirrors_btn.connect_clicked(move |_| {
-        // Spawn child process in separate thread.
-        std::thread::spawn(move || {
-            let _ = utils::run_cmd_terminal(String::from("vaamos-rate-mirrors"), true);
-        });
-    });
 
     topbox.pack_start(&label, true, false, 1);
     button_box_f.pack_start(&update_system_btn, true, true, 2);
     button_box_f.pack_start(&reinstall_btn, true, true, 2);
-    button_box_f.pack_end(&refreshkeyring_btn, true, true, 2);
     button_box_s.pack_start(&removelock_btn, true, true, 2);
     button_box_s.pack_start(&clear_pkgcache_btn, true, true, 2);
     button_box_s.pack_end(&remove_orphans_btn, true, true, 2);
-    button_box_t.pack_end(&rankmirrors_btn, true, true, 2);
     button_box_f.set_halign(gtk::Align::Fill);
     button_box_s.set_halign(gtk::Align::Fill);
     button_box_t.set_halign(gtk::Align::Fill);
     topbox.pack_end(&button_box_t, true, true, 5);
     topbox.pack_end(&button_box_s, true, true, 5);
     topbox.pack_end(&button_box_f, true, true, 5);
-
-    topbox.set_hexpand(true);
-    topbox
-}
-
-fn create_options_section() -> gtk::Box {
-    let topbox = gtk::Box::new(gtk::Orientation::Vertical, 2);
-    let box_collection = gtk::Box::new(gtk::Orientation::Horizontal, 10);
-    let box_collection_s = gtk::Box::new(gtk::Orientation::Horizontal, 10);
-    let label = gtk::Label::new(None);
-    label.set_line_wrap(true);
-    label.set_justify(gtk::Justification::Center);
-    label.set_text("Tweaks");
-
-    let psd_btn = gtk::CheckButton::with_label("Profile-sync-daemon enable");
-    let systemd_oomd_btn = gtk::CheckButton::with_label("Systemd-oomd enabled");
-    let apparmor_btn = gtk::CheckButton::with_label("Apparmor enabled");
-    let ananicy_cpp_btn = gtk::CheckButton::with_label("Ananicy Cpp enabled");
-    let dnscrypt_btn = gtk::CheckButton::with_label("DNSCrypt enabled");
-
-    unsafe {
-        psd_btn.set_data("actionData", "psd.service");
-        psd_btn.set_data("actionType", "user_service");
-        systemd_oomd_btn.set_data("actionData", "systemd-oomd.service");
-        systemd_oomd_btn.set_data("actionType", "service");
-        apparmor_btn.set_data("actionData", "apparmor.service");
-        apparmor_btn.set_data("actionType", "service");
-        ananicy_cpp_btn.set_data("actionData", "ananicy-cpp.service");
-        ananicy_cpp_btn.set_data("actionType", "service");
-    }
-
-    for btn in &[&psd_btn, &systemd_oomd_btn, &apparmor_btn, &ananicy_cpp_btn] {
-        unsafe {
-            let data: &str = *btn.data("actionData").unwrap().as_ptr();
-            if g_local_units
-                .lock()
-                .unwrap()
-                .enabled_units
-                .contains(&String::from(data))
-                || g_global_units
-                    .lock()
-                    .unwrap()
-                    .enabled_units
-                    .contains(&String::from(data))
-            {
-                btn.set_active(true);
-            }
-        }
-    }
-
-    let check_is_pkg_installed = |pkg_name: &str| -> bool {
-        let pacman =
-            pacmanconf::Config::with_opts(None, Some("/etc/pacman.conf"), Some("/")).unwrap();
-        let alpm = alpm_utils::alpm_with_conf(&pacman).unwrap();
-
-        matches!(alpm.localdb().pkg(pkg_name.as_bytes()), Ok(_))
-    };
-    let is_local_service_enabled = |service_unit_name: &str| -> bool {
-        let local_units = unsafe { &g_local_units.lock().unwrap().enabled_units };
-        local_units.contains(&String::from(service_unit_name))
-    };
-
-    {
-        let pkg_name = "vaamos-dnscrypt-proxy";
-        let service_unit_name = "dnscrypt-proxy.service";
-
-        let is_installed = check_is_pkg_installed(pkg_name);
-        let service_enabled = is_local_service_enabled(service_unit_name);
-        let is_valid = is_installed && service_enabled;
-        if is_valid {
-            dnscrypt_btn.set_active(true);
-        }
-    };
-
-    psd_btn.connect_clicked(on_servbtn_clicked);
-    systemd_oomd_btn.connect_clicked(on_servbtn_clicked);
-    apparmor_btn.connect_clicked(on_servbtn_clicked);
-    ananicy_cpp_btn.connect_clicked(on_servbtn_clicked);
-    dnscrypt_btn.connect_clicked(move |_| {
-        // Spawn child process in separate thread.
-        std::thread::spawn(move || {
-            let pkg_name = "vaamos-dnscrypt-proxy";
-            let service_unit_name = "dnscrypt-proxy.service";
-            if !check_is_pkg_installed(pkg_name) {
-                let _ = utils::run_cmd_terminal(format!("pacman -S {pkg_name}"), true);
-                load_enabled_units();
-                return;
-            }
-            if !is_local_service_enabled(service_unit_name) {
-                load_enabled_units();
-            }
-        });
-    });
-
-    topbox.pack_start(&label, true, false, 1);
-    box_collection.pack_start(&psd_btn, true, false, 2);
-    box_collection.pack_start(&systemd_oomd_btn, true, false, 2);
-    box_collection.pack_start(&apparmor_btn, true, false, 2);
-    box_collection.pack_start(&ananicy_cpp_btn, true, false, 2);
-    box_collection_s.pack_start(&dnscrypt_btn, true, false, 2);
-    box_collection.set_halign(gtk::Align::Fill);
-    box_collection_s.set_halign(gtk::Align::Fill);
-    topbox.pack_end(&box_collection_s, true, false, 1);
-    topbox.pack_end(&box_collection, true, false, 1);
 
     topbox.set_hexpand(true);
     topbox
@@ -227,76 +105,9 @@ fn create_apps_section() -> Option<gtk::Box> {
     }
 }
 
-fn load_enabled_units() {
-    unsafe {
-        g_local_units.lock().unwrap().loaded_units.clear();
-        g_local_units.lock().unwrap().enabled_units.clear();
-
-        let mut exec_out = Exec::shell("systemctl list-unit-files -q --no-pager | tr -s \" \"")
-            .stdout(Redirection::Pipe)
-            .capture()
-            .unwrap()
-            .stdout_str();
-        exec_out.pop();
-
-        let service_list = exec_out.split('\n');
-
-        for service in service_list {
-            let out: Vec<&str> = service.split(' ').collect();
-            g_local_units
-                .lock()
-                .unwrap()
-                .loaded_units
-                .push(String::from(out[0]));
-            if out[1] == "enabled" {
-                g_local_units
-                    .lock()
-                    .unwrap()
-                    .enabled_units
-                    .push(String::from(out[0]));
-            }
-        }
-    }
-}
-
-fn load_global_enabled_units() {
-    unsafe {
-        g_global_units.lock().unwrap().loaded_units.clear();
-        g_global_units.lock().unwrap().enabled_units.clear();
-
-        let mut exec_out =
-            Exec::shell("systemctl --global list-unit-files -q --no-pager | tr -s \" \"")
-                .stdout(Redirection::Pipe)
-                .capture()
-                .unwrap()
-                .stdout_str();
-        exec_out.pop();
-
-        let service_list = exec_out.split('\n');
-        for service in service_list {
-            let out: Vec<&str> = service.split(' ').collect();
-            g_global_units
-                .lock()
-                .unwrap()
-                .loaded_units
-                .push(String::from(out[0]));
-            if out[1] == "enabled" {
-                g_global_units
-                    .lock()
-                    .unwrap()
-                    .enabled_units
-                    .push(String::from(out[0]));
-            }
-        }
-    }
-}
-
 pub fn create_tweaks_page(builder: &Builder) {
     let install: gtk::Button = builder.object("tweaksBrowser").unwrap();
     install.set_visible(true);
-
-    load_enabled_units();
-    load_global_enabled_units();
 
     let viewport = gtk::Viewport::new(gtk::Adjustment::NONE, gtk::Adjustment::NONE);
     let image = gtk::Image::from_icon_name(Some("go-previous"), gtk::IconSize::Button);
@@ -310,7 +121,6 @@ pub fn create_tweaks_page(builder: &Builder) {
         stack.set_visible_child_name(&format!("{name}page"));
     }));
 
-    let options_section_box = create_options_section();
     let fixes_section_box = create_fixes_section();
     let apps_section_box_opt = create_apps_section();
 
@@ -323,7 +133,6 @@ pub fn create_tweaks_page(builder: &Builder) {
     grid.attach(&back_btn, 0, 1, 1, 1);
     let box_collection = gtk::Box::new(gtk::Orientation::Vertical, 5);
 
-    box_collection.pack_start(&options_section_box, false, false, 10);
     box_collection.pack_start(&fixes_section_box, false, false, 10);
 
     if let Some(apps_section_box) = apps_section_box_opt {
@@ -377,75 +186,6 @@ pub fn create_appbrowser_page(builder: &Builder) {
     let stack: gtk::Stack = builder.object("stack").unwrap();
     let child_name = "appBrowserpage";
     stack.add_named(&viewport, child_name);
-}
-
-fn on_servbtn_clicked(button: &gtk::CheckButton) {
-    // Get action data/type.
-    let action_type: &str;
-    let action_data: &str;
-    unsafe {
-        action_type = *button.data("actionType").unwrap().as_ptr();
-        action_data = *button.data("actionData").unwrap().as_ptr();
-    }
-
-    let (user_only, pkexec_only) = if action_type == "user_service" {
-        ("--user", "--user $(logname)")
-    } else {
-        ("", "")
-    };
-
-    let cmd: String;
-    unsafe {
-        let local_units = &g_local_units.lock().unwrap().enabled_units;
-        cmd = if !local_units.contains(&String::from(action_data)) {
-            format!(
-                "/sbin/pkexec {pkexec_only} bash -c \"systemctl {user_only} enable --now --force \
-                 {action_data}\""
-            )
-        } else {
-            format!(
-                "/sbin/pkexec {pkexec_only} bash -c \"systemctl {user_only} disable --now \
-                 {action_data}\""
-            )
-        };
-    }
-
-    // Spawn child process in separate thread.
-    std::thread::spawn(move || {
-        Exec::shell(cmd).join().unwrap();
-
-        if action_type == "user_service" {
-            load_global_enabled_units();
-        } else {
-            load_enabled_units();
-        }
-    });
-}
-
-fn on_refreshkeyring_btn_clicked(_: &gtk::Button) {
-    let pacman = pacmanconf::Config::with_opts(None, Some("/etc/pacman.conf"), Some("/")).unwrap();
-    let alpm = alpm_utils::alpm_with_conf(&pacman).unwrap();
-    // pacman -Qq | grep keyring
-    let needles = alpm
-        .localdb()
-        .search([".*-keyring"].iter())
-        .unwrap()
-        .into_iter()
-        .filter(|pkg| pkg.name() != "gnome-keyring")
-        .map(|pkg| {
-            let mut pkgname = String::from(pkg.name());
-            pkgname.remove_matches("-keyring");
-            format!("{pkgname} ")
-        })
-        .collect::<String>();
-
-    // Spawn child process in separate thread.
-    std::thread::spawn(move || {
-        let _ = utils::run_cmd_terminal(
-            format!("pacman-key --init && pacman-key --populate {needles}"),
-            true,
-        );
-    });
 }
 
 fn on_update_system_btn_clicked(_: &gtk::Button) {

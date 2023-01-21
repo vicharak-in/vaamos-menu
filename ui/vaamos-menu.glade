@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.40.0
+<!-- Generated with glade 3.40.0 
+
 Copyright (C) 2023 VaamOS team
+
 -->
 <interface domain="vaamos-menu">
   <requires lib="gtk+" version="3.20"/>
@@ -8,7 +10,7 @@ Copyright (C) 2023 VaamOS team
   <!-- interface-license-type gplv3 -->
   <!-- interface-name vaamos-menu -->
   <!-- interface-copyright 2023 VaamOS team -->
-    <object class="GtkImage" id="abouticon">
+  <object class="GtkImage" id="abouticon">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
     <property name="icon-name">help-about</property>
@@ -18,7 +20,6 @@ Copyright (C) 2023 VaamOS team
     <property name="window-position">center</property>
     <property name="default-width">800</property>
     <property name="default-height">500</property>
-    <property name="has-resize-grip">True</property>
     <signal name="delete-event" handler="on_delete_window" swapped="no"/>
     <child>
       <object class="GtkStack" id="stack">
@@ -27,7 +28,7 @@ Copyright (C) 2023 VaamOS team
         <property name="hexpand">True</property>
         <property name="transition-type">crossfade</property>
         <child>
-          <!-- n-columns=3 n-rows=11 -->
+          <!-- n-columns=3 n-rows=10 -->
           <object class="GtkGrid" id="homepage">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
@@ -239,49 +240,6 @@ Copyright (C) 2023 VaamOS team
             </child>
             <child>
               <object class="GtkBox">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="valign">end</property>
-                <property name="vexpand">True</property>
-                <property name="spacing">10</property>
-                <child>
-                  <placeholder/>
-                </child>
-              </object>
-              <packing>
-                <property name="left-attach">0</property>
-                <property name="top-attach">10</property>
-                <property name="width">3</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="installlabel">
-                <property name="can-focus">False</property>
-                <property name="label" translatable="yes">INSTALLATION</property>
-                <attributes>
-                  <attribute name="weight" value="bold"/>
-                </attributes>
-              </object>
-              <packing>
-                <property name="left-attach">1</property>
-                <property name="top-attach">8</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="install">
-                <property name="label" translatable="yes">Launch installer</property>
-                <property name="name">install</property>
-                <property name="can-focus">False</property>
-                <property name="receives-default">True</property>
-                <signal name="clicked" handler="on_action_clicked" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left-attach">1</property>
-                <property name="top-attach">9</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkBox">
                 <property name="name">boxPlugins</property>
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
@@ -293,8 +251,9 @@ Copyright (C) 2023 VaamOS team
                     <property name="can-focus">False</property>
                     <property name="receives-default">True</property>
                     <property name="tooltip-text" translatable="yes">Apps/Tweaks</property>
-                    <property name="margin-left">15</property>
-                    <property name="margin-right">15</property>
+                    <property name="double-buffered">False</property>
+                    <property name="xalign">0.5</property>
+                    <property name="yalign">0.5</property>
                     <signal name="clicked" handler="on_btn_clicked" swapped="no"/>
                   </object>
                   <packing>
@@ -310,12 +269,11 @@ Copyright (C) 2023 VaamOS team
                     <property name="can-focus">False</property>
                     <property name="receives-default">True</property>
                     <property name="tooltip-text" translatable="yes">Common application selection</property>
-                    <property name="margin-left">15</property>
-                    <property name="margin-right">15</property>
+                    <property name="double-buffered">False</property>
                     <signal name="clicked" handler="on_btn_clicked" swapped="no"/>
                   </object>
                   <packing>
-                    <property name="expand">False</property>
+                    <property name="expand">True</property>
                     <property name="fill">True</property>
                     <property name="position">1</property>
                   </packing>
@@ -323,12 +281,9 @@ Copyright (C) 2023 VaamOS team
               </object>
               <packing>
                 <property name="left-attach">0</property>
-                <property name="top-attach">9</property>
+                <property name="top-attach">8</property>
                 <property name="width">3</property>
               </packing>
-            </child>
-            <child>
-              <placeholder/>
             </child>
             <child>
               <placeholder/>
@@ -375,7 +330,7 @@ Copyright (C) 2023 VaamOS team
             <property name="can-focus">False</property>
             <property name="receives-default">True</property>
             <property name="tooltip-text" translatable="yes">About</property>
-			<property name="image">abouticon</property>
+            <property name="image">abouticon</property>
             <signal name="clicked" handler="on_action_clicked" swapped="no"/>
           </object>
           <packing>
